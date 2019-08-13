@@ -44,6 +44,7 @@ Código de Conduta
 ------------------------------------
 
 Orientador:
+-----------
 `Prof. Dr. Carlos Eduardo de Barros Paes`_
 
 

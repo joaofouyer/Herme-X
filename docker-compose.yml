@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: services/backend/Dockerfile
+    command: sh /code/docker-entrypoint.sh
+    ports:
+      - "8008:8008"
+    depends_on:
+      - db
+    volumes:
+      - ./services/backend:/code
+    environment:
+      DEBUG: 1
+      URL: http://api:8008/
+      ALLOWED_HOSTS: "*"
+      DB_NAME: 'postgres'
+      DB_USER: 'postgres'
+      DB_PASS: 'postgres'
+      DB_ADDR: 'db'
+
+
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - hermex-data:/var/lib/postgresql/data
+
+
+  nginx:
+    build:
+      dockerfile: services/nginx/Dockerfile
+      context: .
+    ports:
+    - "80:80"
+    depends_on:
+    - api
+
+
+volumes:
+  hermex-data:
