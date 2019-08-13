@@ -4,7 +4,7 @@ Projeto hermeX
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
    :alt: License: MIT
    :align: right
-   target: https://opensource.org/licenses/MIT
+   :target: https://opensource.org/licenses/MIT
 
 Protótipo desenvolvido para o Trabalho de Conclusão de Curso para o curso de Bacharel em Ciência da Computação na Pontifícia Universidade Católica de Sâo Paulo (PUC-SP). Este projeto visa criar rotas para veículos compartilhados.
 
@@ -20,7 +20,7 @@ utiliza Docker Compose. Se você não está familiarizado ou não tem Docker ou 
 Compose instalado, você pode consultar o `tutorial na documentação oficial`_. Depois
 disto, basta:
 
-1. Clonar este repositório no seu diretório de trabalho: `git clone https://gitlab.com/pucsp/tcc.git`
+1. Clonar este repositório no seu diretório de trabalho: `https://github.com/joaofouyer/hermex.git`
 
 2. No diretório raiz do projeto *(tcc)*, execute o comando `docker-compose build`
 
