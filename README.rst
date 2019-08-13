@@ -42,8 +42,6 @@ Pronto, você já deve ter tudo configurado e rodando localmente em `localhost:8
 ------------------------------------
 
 
-
-
 Código de Conduta
 =================
 
