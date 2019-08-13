@@ -1,27 +1,68 @@
-version: '3'
+version: '3.4'
 
 services:
 
-  api:
+  gateway:
     build:
       context: .
-      dockerfile: services/backend/Dockerfile
-    command: sh /code/docker-entrypoint.sh
+      dockerfile: services/api_gateway/Dockerfile
+    command: sh /code/entrypoint.sh
     ports:
       - "8008:8008"
     depends_on:
       - db
     volumes:
-      - ./services/backend:/code
+      - ./services/api_gateway:/code
     environment:
       DEBUG: 1
-      URL: http://api:8008/
+      URL: http://gateway:8008/
       ALLOWED_HOSTS: "*"
       DB_NAME: 'postgres'
       DB_USER: 'postgres'
       DB_PASS: 'postgres'
       DB_ADDR: 'db'
 
+  location:
+    build:
+      context: .
+      dockerfile: services/location/Dockerfile
+    command: sh /code/docker-entrypoint.sh
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./services/location:/code
+    environment:
+      DEBUG: 1
+      URL: http://location:5050/
+      ALLOWED_HOSTS: "*"
+
+  clustering:
+    build:
+      context: .
+      dockerfile: services/clustering/Dockerfile
+    command: sh /code/entrypoint.sh
+    ports:
+      - "6060:6060"
+    volumes:
+      - ./services/clustering:/code
+    environment:
+      DEBUG: 1
+      URL: http://clustering:6060/
+      ALLOWED_HOSTS: "*"
+
+  routering:
+    build:
+      context: .
+      dockerfile: services/routering/Dockerfile
+    command: sh /code/entrypoint.sh
+    ports:
+      - "7070:7070"
+    volumes:
+      - ./services/routering:/code
+    environment:
+      DEBUG: 1
+      URL: http://routering:7070/
+      ALLOWED_HOSTS: "*"
 
   db:
     image: postgres:11-alpine
@@ -30,7 +71,6 @@ services:
     volumes:
       - hermex-data:/var/lib/postgresql/data
 
-
   nginx:
     build:
       dockerfile: services/nginx/Dockerfile
@@ -38,8 +78,7 @@ services:
     ports:
     - "80:80"
     depends_on:
-    - api
-
+    - gateway
 
 volumes:
   hermex-data:

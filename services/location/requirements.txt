@@ -1,0 +1,7 @@
+geocoder==1.38.1
+pyshp==2.1.0
+geojson==2.5.0
+gunicorn==19.9.0
+requests==2.22
+googlemaps==3.0.2
+mapbox==0.18.0
