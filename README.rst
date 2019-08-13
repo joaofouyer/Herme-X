@@ -4,8 +4,8 @@ Projeto hermeX
    :alt: License: MIT
    :align: left
    :target: https://opensource.org/licenses/MIT
-   
------------------------------------------------
+
+|
 
 Protótipo desenvolvido para o Trabalho de Conclusão de Curso para o curso de Bacharel em Ciência da Computação na Pontifícia Universidade Católica de Sâo Paulo (PUC-SP). Este projeto visa criar rotas para veículos compartilhados.
 
