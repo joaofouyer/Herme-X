@@ -26,7 +26,7 @@ services:
     build:
       context: .
       dockerfile: services/location/Dockerfile
-    command: sh /code/docker-entrypoint.sh
+    command: sh /code/entrypoint.sh
     ports:
       - "5050:5050"
     volumes:
