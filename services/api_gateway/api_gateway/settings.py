@@ -3,8 +3,8 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^x974gd$wvppgqftfp-_x7n$awr%t842k#jg%=1v#w=9$w$om#'
-DEBUG = True
-ALLOWED_HOSTS = []
+DEBUG = bool(int(os.environ.get("DEBUG", 1)))
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -13,7 +13,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website'
+    'website',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -31,7 +32,7 @@ ROOT_URLCONF = 'api_gateway.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -48,9 +49,14 @@ WSGI_APPLICATION = 'api_gateway.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DB_NAME', 'postgres'),
+            'USER': os.environ.get('DB_USER', 'postgres'),
+            'PASSWORD': os.environ.get('DB_PASS', 'postgres'),
+            'HOST': os.environ.get('DB_ADDR', 'db'),
+            'PORT': os.environ.get('DB_PORT', ''),
+            'CONN_MAX_AGE': 600
+        }
 }
 
 AUTH_PASSWORD_VALIDATORS = [

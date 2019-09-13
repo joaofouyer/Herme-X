@@ -3,10 +3,10 @@ version: '3.4'
 services:
 
   gateway:
+    command: sh /code/start.sh
     build:
       context: .
       dockerfile: services/api_gateway/Dockerfile
-    command: sh /code/entrypoint.sh
     ports:
       - "8008:8008"
     depends_on:
@@ -16,53 +16,53 @@ services:
     environment:
       DEBUG: 1
       URL: http://gateway:8008/
-      ALLOWED_HOSTS: "*"
+      ALLOWED_HOSTS: "gateway"
       DB_NAME: 'postgres'
       DB_USER: 'postgres'
       DB_PASS: 'postgres'
       DB_ADDR: 'db'
+      DB_PORT: '5432'
 
   location:
+    command: sh /code/start.sh
     build:
       context: .
       dockerfile: services/location/Dockerfile
-    command: sh /code/entrypoint.sh
     ports:
       - "5050:5050"
     volumes:
       - ./services/location:/code
     environment:
-      DEBUG: 1
       URL: http://location:5050/
-      ALLOWED_HOSTS: "*"
+      DB_NAME: 'postgres'
+      DB_USER: 'postgres'
+      DB_PASS: 'postgres'
+      DB_ADDR: 'db'
+      DB_PORT: '5432'
 
   clustering:
+    command: sh /code/start.sh
     build:
       context: .
       dockerfile: services/clustering/Dockerfile
-    command: sh /code/entrypoint.sh
     ports:
       - "6060:6060"
     volumes:
       - ./services/clustering:/code
     environment:
-      DEBUG: 1
       URL: http://clustering:6060/
-      ALLOWED_HOSTS: "*"
 
   routering:
+    command: sh /code/start.sh
     build:
       context: .
       dockerfile: services/routering/Dockerfile
-    command: sh /code/entrypoint.sh
     ports:
       - "7070:7070"
     volumes:
       - ./services/routering:/code
     environment:
-      DEBUG: 1
       URL: http://routering:7070/
-      ALLOWED_HOSTS: "*"
 
   db:
     image: postgres:11-alpine
@@ -70,6 +70,8 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - hermex-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
 
   nginx:
     build:

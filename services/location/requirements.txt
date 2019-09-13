@@ -5,3 +5,5 @@ gunicorn==19.9.0
 requests==2.22
 googlemaps==3.1.1
 mapbox==0.18.0
+falcon==2.0.0
+psycopg2==2.8.2
