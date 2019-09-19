@@ -1,0 +1,9 @@
+{
+  "name": "hermex",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "dependencies": {
+  "admin-lte": "^3.0.0-rc.1"
+  }
+}

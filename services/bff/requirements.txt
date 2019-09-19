@@ -5,3 +5,5 @@ psycopg2==2.8.2
 gunicorn==19.9.0
 gevent==1.4.0
 requests==2.22
+tqdm==4.36.0
+Unidecode==1.1.1
