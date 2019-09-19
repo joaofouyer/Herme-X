@@ -1,9 +1,23 @@
 {
-  "name": "hermex",
-  "version": "0.0.1",
-  "private": true,
+  "name": "hermex-client",
+  "author": "João Fouyer <jfouyer@gmail.com>",
   "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-  "admin-lte": "^3.0.0-rc.1"
+    "admin-lte": "^3.0.0-rc.1"
+  },
+  "engines": {
+    "yarn": ">= 1.16.0"
   }
 }

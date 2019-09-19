@@ -18,9 +18,9 @@ services:
       DEBUG: 1
       URL: http://client:8000/
       ALLOWED_HOSTS: "*"
-      DB_NAME: 'postgres'
-      DB_USER: 'postgres'
-      DB_PASS: 'postgres'
+      DB_NAME: 'admin'
+      DB_USER: 'hermex'
+      DB_PASS: 'fe9941445a1e8a693e0335e8200417ec'
       DB_ADDR: 'db'
       DB_PORT: '5432'
       SECRET_KEY: 'dcj6)a_mmj+_r=@02e9hf_%*o4u9*zodaj=sr!y5z0133bf27^'
@@ -36,9 +36,9 @@ services:
       - ./services/location:/code
     environment:
       URL: http://location:5050/
-      DB_NAME: 'postgres'
-      DB_USER: 'postgres'
-      DB_PASS: 'postgres'
+      DB_NAME: 'location'
+      DB_USER: 'hermex'
+      DB_PASS: 'fe9941445a1e8a693e0335e8200417ec'
       DB_ADDR: 'db'
       DB_PORT: '5432'
 
@@ -67,11 +67,15 @@ services:
       URL: http://routering:7070/
 
   db:
-    image: postgres:11-alpine
-    environment:
-      POSTGRES_PASSWORD: postgres
+    build:
+      context: .
+      dockerfile: ./services/database/Dockerfile
     volumes:
       - hermex-data:/var/lib/postgresql/data
+      - ./services/database:/db
+    environment:
+      POSTGRES_USER: 'hermex'
+      POSTGRES_PASSWORD: 'fe9941445a1e8a693e0335e8200417ec'
     ports:
       - '5432:5432'
 
@@ -85,6 +89,8 @@ services:
     - client
     volumes:
       - ./services/client/application/static:/var/www/static
+    logging:
+      driver: none
 
 volumes:
   hermex-data:
