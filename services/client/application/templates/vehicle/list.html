@@ -1,0 +1,38 @@
+line{% extends "main/base.html" %}
+
+{% block content %}
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+{#      <th>E-mail</th>#}
+{#      <th>CPF</th>#}
+{#      <th>Nascimento</th>#}
+{#      <th>Telefone</th>#}
+      <th>Endereço Residencial</th>
+      <th>Endereço Comercial</th>
+      <th>Horários</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for vehicle in vehicles %}
+      <tr>
+        <td>{{ vehicle.id }}</td>
+        <td>{{ vehicle.first_name }} {{ vehicle.last_name }}</td>
+{#        <td>{{ vehicle.email }}</td>#}
+{#        <td>{{ vehicle.cpf }}</td>#}
+{#        <td>{{ vehicle.birthday|date:"d/m/Y"}}</td>#}
+{#        <td>{{ vehicle.phone }}</td>#}
+        <td>{{ vehicle.home_address }}</td>
+        <td>{{ vehicle.destination }}</td>
+        <td>{{ vehicle.entry_time }} / {{ vehicle.exit_time }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+
+{% endblock %}

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from application.models import Passenger
 
 
@@ -7,7 +6,7 @@ def create(request):
     pass
 
 
-def get(request):
+def retrieve(request):
     pass
 
 
@@ -23,7 +22,7 @@ def list(request):
     try:
         passengers = Passenger.objects.all()
         print(passengers.count())
-        return render(request, 'passenger/list.html')
+        return render(request, 'passenger/list.html', {"passengers": passengers})
 
     except Exception as e:
         print("Exceção ao tentar listar todos os passageiros: ", e)

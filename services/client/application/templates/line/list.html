@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+{#      <th>E-mail</th>#}
+{#      <th>CPF</th>#}
+{#      <th>Nascimento</th>#}
+{#      <th>Telefone</th>#}
+      <th>Endereço Residencial</th>
+      <th>Endereço Comercial</th>
+      <th>Horários</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for line in lines %}
+      <tr>
+        <td>{{ line.id }}</td>
+        <td>{{ line.first_name }} {{ line.last_name }}</td>
+{#        <td>{{ line.email }}</td>#}
+{#        <td>{{ line.cpf }}</td>#}
+{#        <td>{{ line.birthday|date:"d/m/Y"}}</td>#}
+{#        <td>{{ line.phone }}</td>#}
+        <td>{{ line.home_address }}</td>
+        <td>{{ line.destination }}</td>
+        <td>{{ line.entry_time }} / {{ line.exit_time }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+
+
+{% endblock %}
