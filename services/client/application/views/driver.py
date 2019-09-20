@@ -21,6 +21,8 @@ def delete(request):
 def list(request):
     try:
         drivers = Driver.objects.all()
+        for d in drivers:
+            print(vars(d))
         return render(request, 'driver/list.html', {"drivers": drivers})
 
     except Exception as e:
