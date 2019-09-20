@@ -41,7 +41,7 @@ class Command(BaseCommand):
                                   "será pulada.\n".format(vehicles_count))
             else:
                 self.stdout.write("Criando veículos\n")
-                generate_vehicles()
+                generate_vehicles(42)
 
         except Exception as e:
             raise CommandError('Não foi possível criar datasets: ', e)

@@ -6,13 +6,7 @@
     <tr>
       <th>ID</th>
       <th>Nome</th>
-{#      <th>E-mail</th>#}
-{#      <th>CPF</th>#}
-{#      <th>Nascimento</th>#}
-{#      <th>Telefone</th>#}
-      <th>Endereço Residencial</th>
-      <th>Endereço Comercial</th>
-      <th>Horários</th>
+      <th>CNH</th>
     </tr>
     </thead>
     <tbody>
@@ -21,13 +15,7 @@
       <tr>
         <td>{{ driver.id }}</td>
         <td>{{ driver.first_name }} {{ driver.last_name }}</td>
-{#        <td>{{ driver.email }}</td>#}
-{#        <td>{{ driver.cpf }}</td>#}
-{#        <td>{{ driver.birthday|date:"d/m/Y"}}</td>#}
-{#        <td>{{ driver.phone }}</td>#}
-        <td>{{ driver.home_address }}</td>
-        <td>{{ driver.destination }}</td>
-        <td>{{ driver.entry_time }} / {{ driver.exit_time }}</td>
+        <td>{{ driver.cnh }}</td>
       </tr>
     {% endfor %}
     </tbody>

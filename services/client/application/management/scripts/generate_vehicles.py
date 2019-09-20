@@ -22,6 +22,7 @@ def generate_vehicle():
             status=1, model=model, capacity=randint(13, 42),
             address=company, license_plate=license_plate, name="{} / {}".format(license_plate, model)
         )
+        vehicle.save()
         return vehicle
 
     except Exception as e:

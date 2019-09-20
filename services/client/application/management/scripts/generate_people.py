@@ -4,7 +4,6 @@ from django.utils import timezone
 
 from application.management.scripts.date_utils import generate_random_birthday
 from application.management.scripts.cpf_utils import generate_cpf
-from application.models import Person
 
 
 FIRST_NAME = ("João", "Elder", "Caroline", "Hector", "Carlos", "Eduardo", "Reginaldo", "Julio", "Lídia", "Daniel",

@@ -6,13 +6,8 @@
     <tr>
       <th>ID</th>
       <th>Nome</th>
-{#      <th>E-mail</th>#}
-{#      <th>CPF</th>#}
-{#      <th>Nascimento</th>#}
-{#      <th>Telefone</th>#}
-      <th>Endereço Residencial</th>
-      <th>Endereço Comercial</th>
-      <th>Horários</th>
+      <th>E-mail</th>
+      <th>Nascimento</th>
     </tr>
     </thead>
     <tbody>
@@ -21,13 +16,8 @@
       <tr>
         <td>{{ manager.id }}</td>
         <td>{{ manager.first_name }} {{ manager.last_name }}</td>
-{#        <td>{{ manager.email }}</td>#}
-{#        <td>{{ manager.cpf }}</td>#}
-{#        <td>{{ manager.birthday|date:"d/m/Y"}}</td>#}
-{#        <td>{{ manager.phone }}</td>#}
-        <td>{{ manager.home_address }}</td>
-        <td>{{ manager.destination }}</td>
-        <td>{{ manager.entry_time }} / {{ manager.exit_time }}</td>
+        <td>{{ manager.email }}</td>
+        <td>{{ manager.birthday|date:'d/m/Y' }}</td>
       </tr>
     {% endfor %}
     </tbody>

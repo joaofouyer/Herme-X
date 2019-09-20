@@ -21,7 +21,6 @@ def delete(request):
 def list(request):
     try:
         passengers = Passenger.objects.all()
-        print(passengers.count())
         return render(request, 'passenger/list.html', {"passengers": passengers})
 
     except Exception as e:
