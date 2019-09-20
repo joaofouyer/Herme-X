@@ -1,8 +1,10 @@
 FROM python:3.7-alpine
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
+RUN mkdir /code && mkdir /code/datasets
 WORKDIR /code
-ADD ./services/bff /code
+ADD ./services/client /code
+
+
 RUN \
  apk update \
  apk add --no-cache postgresql-libs && \
@@ -12,3 +14,6 @@ RUN \
 RUN apk add nodejs
 RUN apk add npm
 RUN npm install -g yarn
+
+ADD ./services/datasets /code/datasets
+

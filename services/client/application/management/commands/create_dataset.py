@@ -1,9 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from application.models import Passenger, Driver, Manager, Vehicle
-from application.management.scripts.generate_passengers import generate_passengers
-from application.management.scripts.generate_drivers import generate_drivers
-from application.management.scripts.generate_managers import generate_managers
-from application.management.scripts.generate_vehicles import generate_vehicles
+from application.management.scripts import generate_passengers, generate_drivers, generate_managers, generate_vehicles
 
 
 class Command(BaseCommand):

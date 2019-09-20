@@ -1,0 +1,10 @@
+from application.management.scripts.cpf_utils import generate_cpf, calc_cpf_digits, verify_cpf_digit
+from application.management.scripts.convert_stops import sptrans_to_json
+# from application.management.scripts.cnpj_utils import
+from application.management.scripts.date_utils import generate_random_birthday, generate_random_time
+from application.management.scripts.generate_locations import generate_location
+from application.management.scripts.generate_passengers import generate_passengers, generate_passenger
+from application.management.scripts.generate_people import generate_person
+from application.management.scripts.generate_drivers import generate_drivers, generate_driver
+from application.management.scripts.generate_managers import generate_managers
+from application.management.scripts.generate_vehicles import generate_vehicles, generate_vehicle

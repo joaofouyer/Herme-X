@@ -13,7 +13,8 @@ services:
       - db
     volumes:
       - ./services/client:/code
-      - /services/client/application/static:/code/application/static
+      - ./services/client/application/static:/code/application/static
+      - ./services/datasets:/code/datasets
     environment:
       DEBUG: 1
       URL: http://client:8000/
