@@ -41,7 +41,7 @@ def sptrans_to_json():
         stop_dicts = json.dumps(stop_dicts, ensure_ascii=False).encode('utf8')
         with open("/code/datasets/sptrans/json/stops.json", 'w') as fp:
             fp.write(stop_dicts.decode())
-        return False
+        return stop_dicts.decode()
     except Exception as e:
         print("Exceção em sptrans_to_json: ", e)
         return True

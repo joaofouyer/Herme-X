@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
-from application.models import Passenger, Driver, Manager, Vehicle, Zone
+from application.models import Passenger, Driver, Manager, Vehicle, Zone, Stop
 from application.management.scripts import generate_passengers, generate_drivers, generate_managers, generate_vehicles, \
-    import_movement_zones
+    import_movement_zones, import_stops
 
 
 class Command(BaseCommand):
@@ -40,6 +40,7 @@ class Command(BaseCommand):
             else:
                 self.stdout.write("Criando veículos\n")
                 generate_vehicles(42)
+
             zones_count = Zone.objects.all().count()
 
             if zones_count:
@@ -49,6 +50,16 @@ class Command(BaseCommand):
             else:
                 self.stdout.write("Importanto zonas de São Paulo do Uber Movement. Sente-se e pegue um café.\n")
                 import_movement_zones()
+
+            stops_count = Stop.objects.all().count()
+
+            if stops_count:
+                self.stdout.write("Como já existe(m) {} pontos criados, a etapa de criação "
+                                  "será pulada.\n".format(stops_count))
+
+            else:
+                self.stdout.write("Importanto pontos da SPTrans.\n")
+                import_stops()
 
         except Exception as e:
             raise CommandError('Não foi possível criar datasets: ', e)
