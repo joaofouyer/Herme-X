@@ -45,5 +45,3 @@ def sptrans_to_json():
     except Exception as e:
         print("Exceção em sptrans_to_json: ", e)
         return True
-
-sptrans_to_json()

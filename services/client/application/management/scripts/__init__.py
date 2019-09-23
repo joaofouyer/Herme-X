@@ -8,3 +8,4 @@ from application.management.scripts.generate_people import generate_person
 from application.management.scripts.generate_drivers import generate_drivers, generate_driver
 from application.management.scripts.generate_managers import generate_managers
 from application.management.scripts.generate_vehicles import generate_vehicles, generate_vehicle
+from application.management.scripts.import_zones import import_movement_zones

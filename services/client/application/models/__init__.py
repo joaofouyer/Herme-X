@@ -14,3 +14,4 @@ from application.models.route_passenger import RoutePassenger
 from application.models.route_path import RoutePath
 from application.models.router_stop import RouteStop
 from application.models.zone import Zone
+from application.models.geo_coordinates import Geocoordinates

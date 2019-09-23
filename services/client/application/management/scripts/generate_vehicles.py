@@ -19,8 +19,8 @@ def generate_vehicle():
             randint(0, 9), randint(0, 9))
         model = choice(MODELS)
         vehicle = Vehicle(
-            status=1, model=model, capacity=randint(13, 42),
-            address=company, license_plate=license_plate, name="{} / {}".format(license_plate, model)
+            status=1, model=model, capacity=randint(13, 42), garage=generate_location(),
+            company=company, license_plate=license_plate, name="{} / {}".format(license_plate, model)
         )
         vehicle.save()
         return vehicle
