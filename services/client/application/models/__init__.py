@@ -8,3 +8,9 @@ from application.models.person import Person
 from application.models.stop import Stop
 from application.models.token import Token
 from application.models.vehicle import Vehicle
+from application.models.geometry import Geometry
+from application.models.route import Route
+from application.models.route_passenger import RoutePassenger
+from application.models.route_path import RoutePath
+from application.models.router_stop import RouteStop
+from application.models.zone import Zone

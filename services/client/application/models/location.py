@@ -15,6 +15,8 @@ class Location(models.Model):
     zip_code = models.CharField(max_length=15, blank=True, null=True)
     coordinates = models.ForeignKey('Coordinates', related_name='address_coordinates', null=True, blank=True,
                                     on_delete=models.PROTECT)
+    zone = models.ForeignKey('Zone', related_name='address_zone', null=True, blank=True,
+                             on_delete=models.PROTECT)
 
     def __str__(self):
         return "{s}, {sn} - {n}, {c} - {state}, {zc} ({info})".format(

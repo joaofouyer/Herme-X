@@ -15,9 +15,11 @@ class Vehicle(models.Model):
     model = models.CharField(max_length=127, blank=False, null=False)
     license_plate = models.CharField(max_length=15, blank=False, null=False)
     capacity = models.IntegerField(null=False, blank=False, default=13)
-    address = models.ForeignKey('Company', related_name='vehicle_company', null=True, blank=True,
+    company = models.ForeignKey('Company', related_name='vehicle_company', null=True, blank=True,
                                 on_delete=models.PROTECT)
     status = models.IntegerField(choices=STATUS, blank=False, null=False, default=True)
+    garage = models.ForeignKey('Location', related_name='vehicle_garage', null=True, blank=True,
+                               on_delete=models.PROTECT)
 
     def __str__(self):
         return self.name
