@@ -1,17 +1,25 @@
 import requests
 import falcon
-
+import json
+from requests.utils import get_unicode_from_response
 from coordinates import Coordinates
 from settings import *
 
 
 class TravelTime:
+    """
+    Both origin and destination must be in a coordinate system.
+    If desired, the departure or arrival time can be passed to estimate more precisely. It should be in Unix timestamp
+    The distance is given in meters.
+    The duration is given in seconds.
+    """
     def __init__(self):
         self.origin = Coordinates(latitude=0.0, longitude=0.0)
         self.destination = Coordinates(latitude=0.0, longitude=0.0)
         self.duration = None
         self.departure = None
         self.arrival = None
+        self.distance = None
 
     def mapbox(self):
         try:
@@ -34,7 +42,13 @@ class TravelTime:
             url += "&arrival_time={}".format(self.arrival) if self.arrival else ''
             url += "&departure_time={}".format(self.departure) if self.departure else ''
             url = url.replace(' ', '')
-            return requests.get(url)
+            directions = json.loads(get_unicode_from_response(requests.get(url)))
+            if directions['status'] == 'INVALID_REQUEST':
+                raise falcon.HTTPBadRequest(title="INVALID REQUEST", description=directions['error_message'])
+            else:
+                self.distance = directions["routes"][0]["legs"][0]["distance"]["value"]
+                self.duration = directions["routes"][0]["legs"][0]["duration"]["value"]
+                return directions
         except Exception as e:
             print("TravelTime by google directions failed: {} {}".format(type(e), e))
             raise e
@@ -61,7 +75,7 @@ class TravelTime:
 
             resp = self.google()
 
-            response.body = resp.content
+            response.body = json.dumps(resp)
 
         except Exception as e:
             print("Estimate Travel Time exception {} {}".format(type(e), e))

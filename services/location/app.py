@@ -12,5 +12,5 @@ api.add_route('/geocoder/', geocoding)
 
 api.add_route('/ett/', travel_time)
 api.add_route('/ett/origin={origin}&destination={destination}', travel_time)
-api.add_route('/ett/origin={origin}&destination={destination}&departure={departure}', travel_time)
-api.add_route('/ett/origin={origin}&destination={destination}&arrival={arrival}', travel_time)
+api.add_route('/ett/origin={origin}&destination={destination}/departure={departure}', travel_time)
+api.add_route('/ett/origin={origin}&destination={destination}/arrival={arrival}', travel_time)

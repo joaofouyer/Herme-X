@@ -1,7 +1,7 @@
 class Coordinates:
     def __init__(self, latitude, longitude):
-        self.latitude = latitude
-        self.longitude = longitude
+        self.latitude = float(latitude) if isinstance(latitude, str) else latitude
+        self.longitude = float(longitude) if isinstance(longitude, str) else longitude
 
     def json(self):
         return {
