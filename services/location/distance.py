@@ -1,20 +1,18 @@
-import requests
 import falcon
-
+from math import cos, sin, asin, sqrt
+import json
 from coordinates import Coordinates
-from settings import *
-from math import radians, cos, sin, asin, sqrt
+from travel_time import TravelTime
 
-# 4468.818397728552 m
-# 4468.489208841052 m
+
 class Distance:
     def __init__(self):
         self.origin = Coordinates(latitude=0.0, longitude=0.0)
         self.destination = Coordinates(latitude=0.0, longitude=0.0)
         self.mode = "haversine"
         self.haversine_distance = 0
-        self.euclidian_distance = 0
-        self.real_distance = 0
+        self.euclidean_distance = 0
+        self.driving_distance = 0
 
     def haversine(self):
         """
@@ -30,11 +28,11 @@ class Distance:
             a = sin(delta_latitude / 2) ** 2 + cos(ori_lat) * cos(des_lat) * sin(delta_longitude / 2) ** 2
 
             distance = 2 * asin(sqrt(a)) * 6371000                                             # Earth radius, in meters
-
+            self.haversine_distance = distance
             return distance
 
         except Exception as e:
-            print("Error on Distance Haversine:  {} {}".format(type(e), e))
+            print("Error on calculating Haversine Distance:  {} {}".format(type(e), e))
             raise e
 
     def euclidean(self):
@@ -42,21 +40,46 @@ class Distance:
             deglen = 119400
             delta_lat = self.origin.latitude - self.destination.latitude
             delta_lng = (self.origin.longitude - self.destination.longitude) * cos(self.destination.latitude)
-            return deglen * sqrt(delta_lat * delta_lat + delta_lng * delta_lng)
-            # return sqrt(delta_latitude ** 2 + delta_longitude ** 2)
+            distance = deglen * sqrt(delta_lat * delta_lat + delta_lng * delta_lng)
+            self.euclidean_distance = distance
+            return distance
         except Exception as e:
-            print("euclidian: ", e)
-            return None
+            print("Error on calculating Euclidean distance :  {} {}".format(type(e), e))
+            raise e
 
     def driving(self):
-        pass
+        try:
+            travel_time = TravelTime(origin=self.origin, destination=self.destination)
+            travel_time.origin = self.origin
+            travel_time.destination = self.destination
+            travel_time.google()
+            print(self.mode)
+            self.driving_distance = travel_time.distance
+            return travel_time.distance
+        except Exception as e:
+            print("Error on calculating driving distance :  {} {}".format(type(e), e))
+            raise e
 
     def walking(self):
         pass
 
+    def json(self):
+        distance = {
+            "haversine": self.haversine_distance,
+            "euclidean": self.euclidean_distance,
+            "driving": self.driving_distance
+        }
+        return {
+            "origin": self.origin.json(),
+            "destination": self.destination.json(),
+            "mode": self.mode,
+            "distance": distance[self.mode]
+        }
+
     def on_get(self, request, response, origin, destination, mode="haversine"):
         try:
             response.status = falcon.HTTP_200
+            self.mode = mode
             if not origin:
                 raise falcon.HTTPMissingParam(
                     param_name="origin", href_text="You must provide an origin address to measure distance."
@@ -68,13 +91,18 @@ class Distance:
 
             origin = origin.split(',')
             destination = destination.split(',')
+
             self.origin = Coordinates(latitude=origin[0], longitude=origin[1])
             self.destination = Coordinates(latitude=destination[0], longitude=destination[1])
-            distance = self.euclidean()
-            print(distance)
 
-            # response.body = resp.content
+            options = {"haversine":  self.haversine, "euclidean": self.euclidean, "driving": self.driving}
+
+            options[mode]()
+
+            response.body = json.dumps(self.json())
 
         except Exception as e:
             print("Estimate Travel Time exception {} {}".format(type(e), e))
             raise e
+
+

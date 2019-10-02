@@ -13,9 +13,15 @@ class TravelTime:
     The distance is given in meters.
     The duration is given in seconds.
     """
-    def __init__(self):
-        self.origin = Coordinates(latitude=0.0, longitude=0.0)
-        self.destination = Coordinates(latitude=0.0, longitude=0.0)
+    def __init__(self, origin=None, destination=None):
+        if origin:
+            self.origin = origin
+        else:
+            self.origin = Coordinates(latitude=0.0, longitude=0.0)
+        if destination:
+            self.destination = destination
+        else:
+            self.destination = Coordinates(latitude=0.0, longitude=0.0)
         self.duration = None
         self.departure = None
         self.arrival = None
@@ -43,8 +49,9 @@ class TravelTime:
             url += "&departure_time={}".format(self.departure) if self.departure else ''
             url = url.replace(' ', '')
             directions = json.loads(get_unicode_from_response(requests.get(url)))
-            if directions['status'] == 'INVALID_REQUEST':
-                raise falcon.HTTPBadRequest(title="INVALID REQUEST", description=directions['error_message'])
+            if directions['status'] == 'INVALID_REQUEST' or directions['status'] == 'ZERO_RESULTS':
+                description = directions['error_message'] if 'error_message' in directions else ''
+                raise falcon.HTTPBadRequest(title="INVALID REQUEST", description=description)
             else:
                 self.distance = directions["routes"][0]["legs"][0]["distance"]["value"]
                 self.duration = directions["routes"][0]["legs"][0]["duration"]["value"]
