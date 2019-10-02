@@ -2,7 +2,8 @@ import os
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GOOGLE_KEY = os.environ.get("GOOGLE_KEY")
+GOOGLE_GEOCODING = os.environ.get("GOOGLE_GEOCODING")
+GOOGLE_DIRECTIONS = os.environ.get("GOOGLE_DIRECTIONS")
 BING_KEY = os.environ.get("BING_KEY")
 HERE_ID = os.environ.get("HERE_ID")
 HERE_CODE = os.environ.get("HERE_CODE")

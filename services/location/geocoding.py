@@ -36,7 +36,7 @@ class Geocoding:
         return geocoder.locationiq(self.address, key=LOCATIONIQ_KEY)
 
     def google(self):
-        return geocoder.google(self.address, key=GOOGLE_KEY, components="country:BR")
+        return geocoder.google(self.address, key=GOOGLE_GEOCODING, components="country:BR")
 
     def opencage(self):
         return geocoder.opencage(self.address, key=OPENCAGE_KEY)
@@ -66,7 +66,7 @@ class Geocoding:
         return geocoder.mapbox(self.coord, method='reverse', key=MAPBOX_KEY)
 
     def reverse_google(self):
-        return geocoder.google(self.coord, method='reverse', key=GOOGLE_KEY)
+        return geocoder.google(self.coord, method='reverse', key=GOOGLE_GEOCODING)
 
     def foward(self, fallback=0):
         try:
