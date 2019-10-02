@@ -1,3 +1,5 @@
+from math import radians
+
 class Coordinates:
     def __init__(self, latitude, longitude):
         self.latitude = float(latitude) if isinstance(latitude, str) else latitude
@@ -25,3 +27,6 @@ class Coordinates:
         except Exception as e:
             print("Exception on Coordinates handler: ", e)
             return None
+
+    def to_radians(self):
+        return radians(self.latitude), radians(self.longitude)
