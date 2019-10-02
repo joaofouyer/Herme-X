@@ -85,8 +85,18 @@ class Geocoding:
                 "google": self.google,
                 "opencage": self.opencage,
             }
-            loc = providers.get(self.provider)
-            return loc
+
+            g = providers.get(self.provider)
+            if g is not None:
+                geocoded = g()
+                if geocoded.ok:
+                    geocoded = Location.handler(dictionary=geocoded.json, provider=self.provider)
+                    if isinstance(geocoded, Location):
+                        return geocoded
+
+            self.provider = FOWARD_PROVIDERS[fallback]
+            return self.foward(fallback=fallback + 1)
+
         except Exception as e:
             print("Exception on foward geocoding: ", e)
             return None
@@ -133,7 +143,6 @@ class Geocoding:
             if self.address:
                 self.provider = provider if self.provider else FOWARD_PROVIDERS[0]
                 loc = self.foward()
-
             elif self.latlng:
                 self.provider = provider if self.provider else REVERSE_PROVIDERS[0]
                 self.coord = [float(self.latlng.split(',')[0]), float(self.latlng.split(',')[1])]

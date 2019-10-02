@@ -50,7 +50,13 @@ class Location:
 
                 elif provider == "here":
                     address = dictionary.get("address")
-                    if isinstance(address, str):
+                    if 'street' in dictionary:
+                        street = dictionary['street']
+
+                    if 'housenumber' in dictionary:
+                        street_number = int(dictionary['housenumber'])
+
+                    elif isinstance(address, str):
                         street = address.split(',')[0]
                         street_number = [int(s) for s in address.split() if s.isdigit()]
                         street_number = street_number[0] if len(street_number) else None
@@ -87,17 +93,50 @@ class Location:
                     neighborhood = dictionary.get("sublocality")
                     state = dictionary.get("state")
                     info = dictionary.get("place")
+
                 elif provider == "locationiq":
                     address = dictionary.get("address")
                     info = dictionary.get("display_name")
+                    if isinstance(address, str):
+                        street = dictionary.get("street")
+                        city = dictionary.get("city")
+                        country = dictionary.get("country")
+                        zip_code = dictionary.get("postal")
+                        street_number = dictionary.get("house_number")
+                        neighborhood = dictionary.get("district")
+                        state = dictionary.get("state")
+                    else:
+                        street = address.get("road")
+                        city = address.get("city")
+                        country = address.get("country")
+                        zip_code = address.get("postcode")
+                        street_number = address.get('house_number')
+                        neighborhood = address.get('city_district')
+                        state = address.get("state")
 
-                    street = address.get("road")
-                    city = address.get("city")
-                    country = address.get("country")
-                    zip_code = address.get("postcode")
-                    street_number = address.get('house_number')
-                    neighborhood = address.get('city_district')
-                    state = address.get("state")
+                elif provider == "arcgis":
+                    address = dictionary.get("address")
+                    quality = dictionary.get("quality")
+                    if quality == "StreetAddress":
+                        a = address.split(',')
+                        street = a[0]
+                        street_number = [int(s) for s in street.split() if s.isdigit()]
+                        street_number = street_number[0] if len(street_number) else None
+                        neighborhood = a[1]
+                        city = a[2]
+                        zip_code = a[3]
+                    country = "BR"
+                    state = "SP"
+
+                elif provider == "opencage":
+                    street = dictionary.get("path")
+                    city = dictionary.get("city")
+                    country = dictionary.get("country")
+                    zip_code = dictionary.get("postal")
+                    street_number = None
+                    neighborhood = dictionary.get("neighbourhood")
+                    state = dictionary.get("state")
+
                 if isinstance(street_number, str):
                     street_number = int(street_number)
                 return Location(
