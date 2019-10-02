@@ -81,3 +81,4 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 STATIC_URL = '/static/'
+LOCATION_URL = os.environ.get('LOCATION_URL', 'http://location:5050/')
