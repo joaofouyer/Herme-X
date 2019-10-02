@@ -117,7 +117,7 @@ class Location:
                 elif provider == "arcgis":
                     address = dictionary.get("address")
                     quality = dictionary.get("quality")
-                    if quality == "StreetAddress":
+                    if quality == "StreetAddress" or "StreetName":
                         a = address.split(',')
                         street = a[0]
                         street_number = [int(s) for s in street.split() if s.isdigit()]
@@ -146,7 +146,7 @@ class Location:
             return None
 
         except Exception as e:
-            print("Exception on Location Handler: ", e)
+            print("Exception on Location Handler: ", e, ". Provider: ", provider)
             return None
 
     def json(self):
