@@ -15,7 +15,8 @@
     "tests"
   ],
   "dependencies": {
-    "admin-lte": "^3.0.0-rc.1"
+    "admin-lte": "^3.0.0-rc.1",
+    "mapbox-gl": "^1.4.0"
   },
   "engines": {
     "yarn": ">= 1.16.0"
