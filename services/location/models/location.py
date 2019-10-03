@@ -1,6 +1,7 @@
-from coordinates import Coordinates
 import json
 from requests.utils import get_unicode_from_response
+from models.coordinates import Coordinates
+
 
 class Location:
 

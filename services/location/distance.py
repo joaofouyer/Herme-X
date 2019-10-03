@@ -1,7 +1,5 @@
-import falcon
 from math import cos, sin, asin, sqrt
-import json
-from coordinates import Coordinates
+from models.coordinates import Coordinates
 from travel_time import TravelTime
 
 
@@ -75,34 +73,3 @@ class Distance:
             "mode": self.mode,
             "distance": distance[self.mode]
         }
-
-    def on_get(self, request, response, origin, destination, mode="haversine"):
-        try:
-            response.status = falcon.HTTP_200
-            self.mode = mode
-            if not origin:
-                raise falcon.HTTPMissingParam(
-                    param_name="origin", href_text="You must provide an origin address to measure distance."
-                )
-            if not destination:
-                raise falcon.HTTPMissingParam(
-                    param_name="destination", href_text="You must provide a destination address to measure distance."
-                )
-
-            origin = origin.split(',')
-            destination = destination.split(',')
-
-            self.origin = Coordinates(latitude=origin[0], longitude=origin[1])
-            self.destination = Coordinates(latitude=destination[0], longitude=destination[1])
-
-            options = {"haversine":  self.haversine, "euclidean": self.euclidean, "driving": self.driving}
-
-            options[mode]()
-
-            response.body = json.dumps(self.json())
-
-        except Exception as e:
-            print("Estimate Travel Time exception {} {}".format(type(e), e))
-            raise e
-
-

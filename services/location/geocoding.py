@@ -3,11 +3,10 @@ import geocoder
 import requests
 import falcon
 from requests.utils import get_unicode_from_response
-from settings import *
-from location import Location
 
-FOWARD_PROVIDERS = ("arcgis", "bing", "here", "mapbox", "mapquest", "locationiq", "google", "opencage")
-REVERSE_PROVIDERS = ("bing", "mapbox", "mapquest", "locationiq", "google", "here")
+from settings.conf import FOWARD_PROVIDERS, REVERSE_PROVIDERS, OPENCAGE_KEY, LOCATIONIQ_KEY, MAPBOX_KEY, MAPQUEST_KEY,\
+    BING_KEY, GOOGLE_GEOCODING, HERE_ID, HERE_CODE
+from models.location import Location
 
 
 class Geocoding:
@@ -129,28 +128,3 @@ class Geocoding:
         except Exception as e:
             print("Exception on reverse geocoding: ", e)
             return None
-
-    def on_get(self, request, response, address=None, latlng=None, provider=None):
-        try:
-            response.status = falcon.HTTP_200
-
-            self.address = address
-            self.latlng = latlng
-
-            if self.address:
-                self.provider = provider if self.provider else FOWARD_PROVIDERS[0]
-                loc = self.foward()
-            elif self.latlng:
-                self.provider = provider if self.provider else REVERSE_PROVIDERS[0]
-                self.coord = [float(self.latlng.split(',')[0]), float(self.latlng.split(',')[1])]
-                loc = self.reverse()
-
-            else:
-                raise falcon.HTTPMissingParam(
-                    param_name="address", href_text="You must provide at least an address or latlng param."
-                )
-            response.body = json.dumps(loc.json())
-
-        except Exception as e:
-            print("Geocoding exception {} {}".format(type(e), e))
-            raise e

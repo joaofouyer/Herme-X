@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gunicorn app:api -c /code/gunicorn.py --reload
+gunicorn app:api -c /code/settings/gunicorn.py --reload

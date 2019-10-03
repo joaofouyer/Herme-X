@@ -1,9 +1,10 @@
 import requests
 import falcon
 import json
+
 from requests.utils import get_unicode_from_response
-from coordinates import Coordinates
-from settings import *
+from models.coordinates import Coordinates
+from settings.conf import GOOGLE_DIRECTIONS
 
 
 class TravelTime:
@@ -58,32 +59,4 @@ class TravelTime:
                 return directions
         except Exception as e:
             print("TravelTime by google directions failed: {} {}".format(type(e), e))
-            raise e
-
-    def on_get(self, request, response, origin, destination, departure=None, arrival=None):
-        try:
-            response.status = falcon.HTTP_200
-            if not origin:
-                raise falcon.HTTPMissingParam(
-                    param_name="origin", href_text="You must provide an origin address to estimate travel time."
-                )
-            if not destination:
-                raise falcon.HTTPMissingParam(
-                    param_name="destination", href_text="You must provide destination address to estimate travel time."
-                )
-
-            origin = origin.split(',')
-            destination = destination.split(',')
-
-            self.origin = Coordinates(latitude=origin[0], longitude=origin[1])
-            self.destination = Coordinates(latitude=destination[0], longitude=destination[1])
-            self.departure = departure
-            self.arrival = arrival
-
-            resp = self.google()
-
-            response.body = json.dumps(resp)
-
-        except Exception as e:
-            print("Estimate Travel Time exception {} {}".format(type(e), e))
             raise e
