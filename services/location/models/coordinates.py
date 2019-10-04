@@ -1,5 +1,6 @@
 from math import radians
 
+
 class Coordinates:
     def __init__(self, latitude, longitude):
         self.latitude = float(latitude) if isinstance(latitude, str) else latitude

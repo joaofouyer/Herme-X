@@ -1,4 +1,5 @@
 from django.db import models
+from math import radians
 
 
 class Coordinates(models.Model):
@@ -10,3 +11,6 @@ class Coordinates(models.Model):
 
     def __str__(self):
         return self.latitude, self.longitude
+
+    def to_radians(self):
+        return radians(self.latitude), radians(self.longitude)
