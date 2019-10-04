@@ -6,5 +6,3 @@ class Geocoordinates(models.Model):
         ordering = ['pk']
     coordinates = models.ForeignKey('Coordinates', on_delete=models.CASCADE, blank=False, null=False)
     geometry = models.ForeignKey('Geometry', on_delete=models.CASCADE, blank=False, null=False)
-
-
