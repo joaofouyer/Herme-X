@@ -2,6 +2,7 @@ from coordinates import Coordinates
 import json
 from requests.utils import get_unicode_from_response
 
+
 class Location:
 
     def __init__(self, street, street_number, info, neighborhood, city, state, country, zip_code, coordinates,

@@ -3,7 +3,7 @@ import falcon
 import json
 from requests.utils import get_unicode_from_response
 from coordinates import Coordinates
-from settings import *
+from conf import *
 
 
 class TravelTime:

@@ -3,7 +3,7 @@ import geocoder
 import requests
 import falcon
 from requests.utils import get_unicode_from_response
-from settings import *
+from conf import *
 from location import Location
 
 FOWARD_PROVIDERS = ("arcgis", "bing", "here", "mapbox", "mapquest", "locationiq", "google", "opencage")

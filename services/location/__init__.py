@@ -1,1 +1,1 @@
-from settings import GOOGLE_KEY
+from conf import GOOGLE_KEY

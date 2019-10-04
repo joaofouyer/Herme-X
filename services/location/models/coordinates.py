@@ -1,8 +1,14 @@
 from math import radians
+from pony.orm import Database, Required
+
+db = Database()
 
 
-class Coordinates:
-    def __init__(self, latitude, longitude):
+class Coordinates(db.Entity):
+    latitude = Required(float)
+    longitude = Required(float)
+
+    def __init__(self, latitude=0.0, longitude=0.0):
         self.latitude = float(latitude) if isinstance(latitude, str) else latitude
         self.longitude = float(longitude) if isinstance(longitude, str) else longitude
 
@@ -12,21 +18,20 @@ class Coordinates:
             "longitude": self.longitude
         }
 
-    @staticmethod
-    def handler(dictionary):
+    def handler(self, dictionary):
         try:
-            latitude = dictionary.get("lat", 0.0)
+            self.latitude = dictionary.get("lat", 0.0)
             if 'lon' in dictionary:
-                longitude = dictionary['lon']
+                self.longitude = dictionary['lon']
             elif 'lng' in dictionary:
-                longitude = dictionary['lng']
+                self.longitude = dictionary['lng']
             elif 'longitude' in dictionary:
-                longitude = dictionary['longitude']
+                self.longitude = dictionary['longitude']
             else:
-                longitude = 0.0
-            return Coordinates(latitude=latitude, longitude=longitude)
+                self.longitude = 0.0
+
         except Exception as e:
-            print("Exception on Coordinates handler: ", e)
+            print("Geocoding handler exception {} {}".format(type(e), e))
             return None
 
     def to_radians(self):
