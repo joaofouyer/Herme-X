@@ -21,10 +21,11 @@ services:
       ALLOWED_HOSTS: "*"
       DB_NAME: 'admin'
       DB_USER: 'hermex'
-      DB_PASS: 'fe9941445a1e8a693e0335e8200417ec'
+      DB_PASS: '<INSERT PASSWORD HERE>'
       DB_ADDR: 'db'
       DB_PORT: '5432'
-      SECRET_KEY: 'dcj6)a_mmj+_r=@02e9hf_%*o4u9*zodaj=sr!y5z0133bf27^'
+      SECRET_KEY: '<INSERT SECRET KEY HERE>'
+      LOCATION_URL: http://location:5050/
 
   location:
     command: sh /code/start.sh
@@ -39,9 +40,18 @@ services:
       URL: http://location:5050/
       DB_NAME: 'location'
       DB_USER: 'hermex'
-      DB_PASS: 'fe9941445a1e8a693e0335e8200417ec'
+      DB_PASS: '<INSERT PASSWORD HERE>'
       DB_ADDR: 'db'
       DB_PORT: '5432'
+      GOOGLE_GEOCODING: '<INSERT GOOGLE KEY HERE>'
+      GOOGLE_DIRECTIONS: '<INSERT GOOGLE KEY HERE>'
+      BING_KEY: '<INSERT BING KEY HERE>'
+      HERE_ID: '<INSERT HERE ID>'
+      HERE_CODE: '<INSERT HERE CODE>'
+      MAPBOX_KEY: '<INSERT MAPBOX KEY>'
+      MAPQUEST_KEY: '<INSERT MAPQUEST KEY>'
+      OPENCAGE_KEY: '<INSERT OPENCAGE KEY>'
+      LOCATIONIQ_KEY: '<INSERT LOCATIONIQ KEY>'
 
   clustering:
     command: sh /code/start.sh
@@ -76,7 +86,7 @@ services:
       - ./services/database:/db
     environment:
       POSTGRES_USER: 'hermex'
-      POSTGRES_PASSWORD: 'fe9941445a1e8a693e0335e8200417ec'
+      POSTGRES_PASSWORD: '<INSERT DB PASSWORD>'
     ports:
       - '5432:5432'
 
