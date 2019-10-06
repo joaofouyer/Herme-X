@@ -86,15 +86,10 @@ Orientador:
 Autores:
 --------
 
-`Caroline C. Appolinario`_ <caroline.appolinario@gmail.com>
-
-Hector Rauer <hector.rauer@gmail.com>
-
 `João E. Fouyer`_ <jfouyer@gmail.com>
 
 
 .. _Prof. Dr. Carlos Eduardo de Barros Paes: http://lattes.cnpq.br/6550336604432810
-.. _Caroline C. Appolinario: http://lattes.cnpq.br/1746001355108337
 .. _João E. Fouyer: http://lattes.cnpq.br/9901346603428982
 .. _tutorial na documentação oficial: https://docs.docker.com/compose/install/
 .. _Docker no Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
