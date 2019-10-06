@@ -1,6 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
-
+from mapping.zone import Zone
+from mapping.coordinates import Coordinates
 
 Base = declarative_base()
 
@@ -20,5 +21,5 @@ class Location(Base):
     country = Column('country', String, nullable=False)
     zip_code = Column('zip_code', String, nullable=False)
 
-    coordinates = Column(Integer, ForeignKey('coordinates.id'), nullable=False)
-    zone = Column(Integer, ForeignKey('zone.id'), nullable=False)
+    coordinates = Column(Integer, ForeignKey(Coordinates.id), nullable=False)
+    zone = Column(Integer, ForeignKey(Zone.id), nullable=False)

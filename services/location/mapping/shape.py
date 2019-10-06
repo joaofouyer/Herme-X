@@ -6,15 +6,15 @@ from sqlalchemy import Column, Integer, Enum
 Base = declarative_base()
 
 
-class Shapes(enum.Enum):
+class ShapeEnum(enum.Enum):
     other = 0
     boundaries = 1
     route_path = 2
 
 
-class Geometry(Base):
-    __tablename__ = 'geometry'
+class Shape(Base):
+    __tablename__ = 'shape'
 
     id = Column('id', Integer, primary_key=True, nullable=False, autoincrement=True, unique=True)
     external_id = Column('external_id', Integer, nullable=True, unique=True)
-    shape = Column(Enum(Shapes), default=0)
+    shape = Column(Enum(ShapeEnum), default=0)

@@ -1,6 +1,8 @@
 import enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
+from mapping.shape import Shape
+from mapping.coordinates import Coordinates
 
 
 Base = declarative_base()
@@ -25,9 +27,9 @@ class Zone(Base):
     city_name = Column('city_name', String, nullable=True)
     city_number = Column('city_number', Integer, nullable=True)
     movement_id = Column('movement_id', String, nullable=True)
-    geometry = Column(Integer, ForeignKey('geometry.id'), nullable=False)
+    geometry = Column(Integer, ForeignKey(Shape.id), nullable=False)
 
-    min_lat = Column(Integer, ForeignKey('coordinates.id'), nullable=True)
-    min_lng = Column(Integer, ForeignKey('coordinates.id'), nullable=True)
-    max_lat = Column(Integer, ForeignKey('coordinates.id'), nullable=True)
-    max_lng = Column(Integer, ForeignKey('coordinates.id'), nullable=True)
+    min_lat = Column(Integer, ForeignKey(Coordinates.id), nullable=True)
+    min_lng = Column(Integer, ForeignKey(Coordinates.id), nullable=True)
+    max_lat = Column(Integer, ForeignKey(Coordinates.id), nullable=True)
+    max_lng = Column(Integer, ForeignKey(Coordinates.id), nullable=True)
