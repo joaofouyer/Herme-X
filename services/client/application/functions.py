@@ -30,4 +30,3 @@ def get_address_boundaries(coordinates, degrees=0.005):
     except Exception as e:
         print("Error on get_address_boundaries :  {} {}".format(type(e), e))
         raise e
-

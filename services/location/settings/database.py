@@ -44,6 +44,13 @@ def start():
         print("Error on starting mapping on databse:  {} {}".format(type(e), e))
         raise e
 
+def test():
+    from mapping import Coordinates, Shape, Geocoordinates, Stop, Location
+    from sqlalchemy.orm import sessionmaker
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    query = session.query(Stop.external_id).count()
+
 # from mapping import *
 # from settings.database import *
 # from sqlalchemy.orm import sessionmaker

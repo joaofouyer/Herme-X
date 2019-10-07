@@ -2,6 +2,7 @@ import enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Enum
 from mapping.location import Location
+from geoalchemy2 import Geography
 
 
 Base = declarative_base()
@@ -30,3 +31,9 @@ class Stop(Base):
     stop_type = Column(Enum(StopType), nullable=False, default=0)
     sidewalk_type = Column(Enum(Sidewalk), nullable=False, default=0)
     company_id = Column('company_id', Integer, nullable=True)
+
+    coordinates = Column(
+        'coordinates',
+        Geography(geometry_type='POINT', dimension=2, spatial_index=True),
+        nullable=False
+    )

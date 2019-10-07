@@ -41,7 +41,11 @@ class Stop(models.Model):
             return {
                 "id": self.id,
                 "address": {
-                    "id": self.address.id
+                    "id": self.address.id,
+                    "coordinates": {
+                        "latitude": self.address.coordinates.latitude,
+                        "longitude": self.address.coordinates.longitude
+                    }
                 },
                 "reference": self.reference,
                 "type": self.type,

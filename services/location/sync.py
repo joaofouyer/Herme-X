@@ -149,23 +149,28 @@ class Sync:
             synced = 0
             for s in stops:
                 # if not session.query(Stop).filter(Stop.external_id == s['id']).count():
+                point = "POINT({} {})".format(s['address']['coordinates']['latitude'], s['address']['coordinates']['longitude'])
+
                 location_id = session.query(Location.id).filter(Location.external_id == s['address']['id'])
+
                 if location_id.count():
                     location_id = location_id.one()
-                    sidewalk = Sidewalk(value=s['sidewalk'])
-                    stype = StopType(value=s['type'])
-                    stop = Stop(
-                        external_id=s['id'],
-                        address=location_id,
-                        reference=s['reference'],
-                        stop_type=stype,
-                        sidewalk_type=sidewalk,
-                        company_id=s['company_id']
-                    )
-                    session.add(stop)
-                    synced = synced + 1
                 else:
-                    print("Not found: ", s['address']['id'])
+                    location_id = 1
+
+                sidewalk = Sidewalk(value=s['sidewalk'])
+                stype = StopType(value=s['type'])
+                stop = Stop(
+                    external_id=s['id'],
+                    address=location_id,
+                    reference=s['reference'],
+                    stop_type=stype,
+                    sidewalk_type=sidewalk,
+                    company_id=s['company_id'],
+                    coordinates=point
+                )
+                session.add(stop)
+                synced = synced + 1
             session.commit()
             session.close()
             print("Finished: ", synced)

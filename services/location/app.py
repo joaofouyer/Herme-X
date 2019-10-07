@@ -6,10 +6,12 @@ from geocoding import Geocoding
 from travel_time import TravelTime
 from distance import Distance
 from sync import Sync
+from nearest_stop import NearestStop
 from models.coordinates import Coordinates
 
 api = falcon.API()
 api.req_options.auto_parse_form_urlencoded = True
+
 
 class Main:
     def on_get(self, request, response):
@@ -143,6 +145,19 @@ class DistanceService:
             raise e
 
 
+class NearestStopService:
+    def on_get(self, request, response):
+        try:
+            response.status = falcon.HTTP_200
+            data = loads(request.stream.read())
+            ns = NearestStop()
+            response.body = dumps(ns.find(addresses=data))
+
+        except Exception as e:
+            print("Exception on nearest stop: {} {}".format(type(e), e))
+            raise e
+
+
 class SyncService:
     def on_post(self, request, response, mode):
         try:
@@ -188,6 +203,10 @@ distance = DistanceService()
 
 sync = SyncService()
 
+find_stop = NearestStopService()
+
+api.add_route('/find-stop/', find_stop)
+
 api.add_route('/geocoder/address={address}', geocoding)
 api.add_route('/geocoder/latlng={latlng}', geocoding)
 api.add_route('/geocoder/', geocoding)
@@ -201,5 +220,6 @@ api.add_route('/distance/', distance)
 api.add_route('/distance/origin={origin}&destination={destination}', distance)
 api.add_route('/distance/{mode}/origin={origin}&destination={destination}', distance)
 
-
 api.add_route('/sync/{mode}', sync)
+
+
