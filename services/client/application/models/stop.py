@@ -34,3 +34,21 @@ class Stop(models.Model):
             return "Parada -> {r}".format(r=self.reference)
         else:
             return "Parada -> {r}".format(r=self.address.__str__())
+
+    def json(self):
+        try:
+
+            return {
+                "id": self.id,
+                "address": {
+                    "id": self.address.id
+                },
+                "reference": self.reference,
+                "type": self.type,
+                "sidewalk": self.sidewalk,
+                "company_id": 0
+            }
+
+        except Exception as e:
+            print("Exception on Stop json: {} {}".format(type(e), e))
+            raise e

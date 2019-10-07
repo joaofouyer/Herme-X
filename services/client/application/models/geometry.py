@@ -12,3 +12,15 @@ class Geometry(models.Model):
     )
 
     type = models.IntegerField(default=0, blank=False, null=False, choices=TYPE)
+
+    def json(self):
+        try:
+
+            return {
+                "type": self.type,
+                "id": self.id
+            }
+
+        except Exception as e:
+            print("Exception on Geomtry json: {} {}".format(type(e), e))
+            raise e

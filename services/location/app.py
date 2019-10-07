@@ -1,14 +1,15 @@
-from json import dumps
+from json import dumps, loads
 import falcon
 from settings.conf import FOWARD_PROVIDERS, REVERSE_PROVIDERS
 
 from geocoding import Geocoding
 from travel_time import TravelTime
 from distance import Distance
+from sync import Sync
 from models.coordinates import Coordinates
 
 api = falcon.API()
-
+api.req_options.auto_parse_form_urlencoded = True
 
 class Main:
     def on_get(self, request, response):
@@ -142,12 +143,50 @@ class DistanceService:
             raise e
 
 
+class SyncService:
+    def on_post(self, request, response, mode):
+        try:
+            data = loads(request.stream.read())
+
+            response.status = falcon.HTTP_200
+            sync = Sync()
+
+            error = True
+
+            if mode == "coordinates":
+                error = sync.sync_coordinates(data)
+            elif mode == "shape":
+                error = sync.sync_shape(data)
+            elif mode == "geocoordinates":
+                error = sync.sync_geocoordinates(data)
+            elif mode == "location":
+                error = sync.sync_location(data)
+            elif mode == "stop":
+                error = sync.sync_stop(data)
+            elif mode == "zone":
+                error = sync.sync_zone(data)
+            else:
+                print("Sync not supported!")
+
+            if error:
+                response.status = falcon.HTTP_500
+
+        except Exception as e:
+            print("Exception on sync: {} {}".format(type(e), e))
+            raise e
+
+
 app = Main()
+
 api.add_route('/', app)
 
 geocoding = GeocoderService()
+
 travel_time = TravelTimeService()
+
 distance = DistanceService()
+
+sync = SyncService()
 
 api.add_route('/geocoder/address={address}', geocoding)
 api.add_route('/geocoder/latlng={latlng}', geocoding)
@@ -161,3 +200,6 @@ api.add_route('/ett/origin={origin}&destination={destination}/arrival={arrival}'
 api.add_route('/distance/', distance)
 api.add_route('/distance/origin={origin}&destination={destination}', distance)
 api.add_route('/distance/{mode}/origin={origin}&destination={destination}', distance)
+
+
+api.add_route('/sync/{mode}', sync)

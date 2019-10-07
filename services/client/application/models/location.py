@@ -25,3 +25,27 @@ class Location(models.Model):
 
     def get_coordinates(self):
         return self.coordinates.__str__()
+
+    def json(self):
+        try:
+            coordinates = self.coordinates.json() if self.coordinates else None
+
+            zone = self.zone.json() if self.zone else None
+
+            return {
+                "id": self.id,
+                "street": self.street,
+                "street_number": self.street_number,
+                "info": self.info,
+                "neighborhood": self.neighborhood,
+                "city": self.city,
+                "state": self.state,
+                "country": self.country,
+                "zip_code": self.zip_code,
+                "coordinates": coordinates,
+                "zone": zone
+            }
+
+        except Exception as e:
+            print("Exception on Locations json: {} {}".format(type(e), e))
+            raise e

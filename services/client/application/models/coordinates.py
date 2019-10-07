@@ -14,3 +14,16 @@ class Coordinates(models.Model):
 
     def to_radians(self):
         return radians(self.latitude), radians(self.longitude)
+
+    def json(self):
+        try:
+
+            return {
+                "latitude": self.latitude,
+                "longitude": self.longitude,
+                "id": self.id
+            }
+
+        except Exception as e:
+            print("Exception on Coordinates json: {} {}".format(type(e), e))
+            raise e

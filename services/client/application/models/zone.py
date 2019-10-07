@@ -23,3 +23,22 @@ class Zone(models.Model):
     def __str__(self):
         return self.name
 
+    def json(self):
+        try:
+
+            return {
+                "id": self.id,
+                "type": self.type,
+                "name": self.name,
+                "number": self.number,
+                "district_name": self.district_name,
+                "district_number": self.district_number,
+                "city_name": self.city_name,
+                "city_number": self.city_number,
+                "movement_id": self.movement_id,
+                "geometry": self.geometry.json()
+            }
+
+        except Exception as e:
+            print("Exception on Zone json: {} {}".format(type(e), e))
+            raise e
