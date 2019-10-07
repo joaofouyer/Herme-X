@@ -28,7 +28,7 @@ def list(request):
             "longitude": p.home_address.coordinates.longitude
         }
         coordinates = [coord]
-        bla = find_nearest_stop(coordinates=coordinates)
+        stop = find_nearest_stop(coordinates=coordinates)
         return render(request, 'passenger/list.html', {"passengers": passengers})
 
     except Exception as e:
