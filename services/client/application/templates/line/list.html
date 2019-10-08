@@ -1,38 +1,121 @@
 {% extends "main/base.html" %}
-
+{% block custom_head %}
+  <style>
+    .line-title {
+      margin-top: 80px;
+      font-weight: 900
+    }
+    .wizard-box {
+      border-width: 1px;
+      border-style: solid;
+      margin-top: 25px;
+      border-radius: 5px;
+      border-color: #c6d2e1;
+      padding: 20px;
+    }
+    #line-timeline{
+      border-bottom-width: 2px;
+      border-color: #c6d2e1;
+      border-style: solid;
+      z-index: -10;
+    }
+  </style>
+{% endblock %}
 {% block content %}
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-{#      <th>E-mail</th>#}
-{#      <th>CPF</th>#}
-{#      <th>Nascimento</th>#}
-{#      <th>Telefone</th>#}
-      <th>Endereço Residencial</th>
-      <th>Endereço Comercial</th>
-      <th>Horários</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    {% for line in lines %}
+  {% if lines %}
+    <table class="table table-hover">
+      <thead>
       <tr>
-        <td>{{ line.id }}</td>
-        <td>{{ line.first_name }} {{ line.last_name }}</td>
-{#        <td>{{ line.email }}</td>#}
-{#        <td>{{ line.cpf }}</td>#}
-{#        <td>{{ line.birthday|date:"d/m/Y"}}</td>#}
-{#        <td>{{ line.phone }}</td>#}
-        <td>{{ line.home_address }}</td>
-        <td>{{ line.destination }}</td>
-        <td>{{ line.entry_time }} / {{ line.exit_time }}</td>
+        <th>ID</th>
+        <th>Nome</th>
+        {#      <th>E-mail</th>#}
+        {#      <th>CPF</th>#}
+        {#      <th>Nascimento</th>#}
+        {#      <th>Telefone</th>#}
+        <th>Endereço Residencial</th>
+        <th>Endereço Comercial</th>
+        <th>Horários</th>
       </tr>
-    {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
 
+      {% for line in lines %}
+        <tr>
+          <td>{{ line.id }}</td>
+          <td>{{ line.first_name }} {{ line.last_name }}</td>
+          {#        <td>{{ line.email }}</td>#}
+          {#        <td>{{ line.cpf }}</td>#}
+          {#        <td>{{ line.birthday|date:"d/m/Y"}}</td>#}
+          {#        <td>{{ line.phone }}</td>#}
+          <td>{{ line.home_address }}</td>
+          <td>{{ line.destination }}</td>
+          <td>{{ line.entry_time }} / {{ line.exit_time }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <h1 align="center" class="line-title">Crie uma nova linha</h1>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="wizard-box">
+          <h4 align="center" style="font-weight: 700"> Escolha seu modo</h4>
+          <div class="row" style="margin: 40px 10px 40px 10px">
+            <div class="col-md-6" align="center">
+              <a href="#" style="color:  #4b545c">
+                <span class="fas fa-bus fa-10x"></span><br/>
+                Por veículos
+              </a>
+
+            </div>
+            <div class="col-md-6" align="center">
+              <a href="{% url 'passengers_map' %}" style="color:  #4b545c">
+                <span class="fas fa-users fa-10x"></span><br/>
+                Por passageiros
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div><!--./col-->
+    </div><!--./row-->
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="row">
+          <div class="col-sm-4">
+            <i class="fas fa-dot-circle" style="color: rgb(66, 100, 251) "></i>
+          </div>
+          <div class="col-sm-4" align="center">
+            <i class="far fa-dot-circle" style="color: #c6d2e1"></i>
+          </div>
+          <div class="col-sm-4" align="right">
+            <i class="far fa-dot-circle" style="color: #c6d2e1"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: -15px 20px 0px 20px;">
+      <div class="col-sm-8 offset-sm-2" id="line-timeline"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 offset-sm-2">
+        <div class="row">
+          <div class="col-sm-4" style="color: rgb(66, 100, 251)">
+            Escolher modo
+          </div>
+          <div class="col-sm-4" align="center" style="color: #c6d2e1">
+            Agrupar
+          </div>
+          <div class="col-sm-4" align="right" style="color: #c6d2e1">
+            Roterizar
+          </div>
+        </div>
+      </div>
+
+    </div>
+  {% endif %}
 
 
 {% endblock %}

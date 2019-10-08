@@ -81,4 +81,5 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 STATIC_URL = '/static/'
-LOCATION_URL = os.environ.get('LOCATION_URL', 'http://location:5050/')
+LOCATION_URL = os.environ.get('LOCATION_URL', 'http://location:5050')
+CLUSTERING_URL = os.environ.get('CLUSTERING_URL', 'http://clustering:6060')

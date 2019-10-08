@@ -27,3 +27,14 @@ class Coordinates(models.Model):
         except Exception as e:
             print("Exception on Coordinates json: {} {}".format(type(e), e))
             raise e
+
+    @staticmethod
+    def handler(dictionary):
+        try:
+            latitude = dictionary.get("latitude")
+            longitude = dictionary.get("longitude")
+            return Coordinates(latitude=latitude, longitude=longitude)
+
+        except Exception as e:
+            print("Exception on Coordinates handler: {} {}".format(type(e), e))
+            raise e

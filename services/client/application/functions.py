@@ -1,4 +1,70 @@
 from math import asin, sin, sqrt, cos
+import json
+
+
+def create_cluster_layer(clusters):
+    try:
+        dicts = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+        label = 0
+        for c in clusters:
+            for item in c:
+                dicts['features'].append(
+                    {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [item[1], item[0]]
+                        },
+                        "properties": {
+                            "group": str(label)
+                        }
+                    }
+                )
+            label = label + 1
+
+        dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
+        with open("/code/application/static/layers/clusters.json", 'w') as fp:
+            fp.write(dicts.decode())
+        return False
+    except Exception as e:
+        print("Exceção em create cluster layer: ", e)
+        return True
+
+
+def create_stop_layer(stops):
+    from application.models import Stop
+    try:
+        dicts = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+        for cluster in stops:
+            for s in cluster:
+                nearest_id = s['nearest_stop']['id']
+                nearest = Stop.objects.get(pk=nearest_id)
+                dicts['features'].append(
+                    {
+                        "type": "Feature",
+                        "geometry": {
+                            "type": "Point",
+                            "coordinates": [nearest.address.coordinates.longitude, nearest.address.coordinates.latitude]
+                        },
+                        "properties": {
+                            "type": "pickup"
+                        }
+                    }
+                )
+
+        dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
+        with open("/code/application/static/layers/stop-route.json", 'w') as fp:
+            fp.write(dicts.decode())
+        return False
+    except Exception as e:
+        print("Exceção em create stop cluster layer: ", e)
+        return True
 
 
 def haversine(origin, destination):
@@ -30,3 +96,4 @@ def get_address_boundaries(coordinates, degrees=0.005):
     except Exception as e:
         print("Error on get_address_boundaries :  {} {}".format(type(e), e))
         raise e
+

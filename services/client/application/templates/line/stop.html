@@ -1,0 +1,99 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block custom_head %}
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.3.2/mapbox-gl.css' rel='stylesheet' />
+{% endblock %}
+{% block content %}
+
+  <div class="row" style="margin-top: 10px">
+    <div class="col-md-3 offset-md-9" align="right">
+       <form action="{% url 'find-nearest-stops' %}">
+        <button type="submit" class="btn btn-outline-dark" href="">Ordenar</button>
+      </form>
+    </div>
+  </div>
+  <div class="row" style="margin: 10px 0 10px 0">
+    <div class="col-sm-12" align="center">
+      <div id='map' style='width: 100%; height: 500px;'></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZm91eWVyIiwiYSI6ImNrMHdndHliaTE5eDQzYnF6Nmw1MGVveTIifQ.iiGt_7-EEPcR4OeHuuXasQ';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/fouyer/ck1b4ot0v07bb1ckixzd3y09c',
+    });
+    map.on('load', function () {
+      map.addLayer({
+        'id': 'stops',
+        'type': 'circle',
+        'source': {
+          type: 'geojson',
+          data: '{% static 'layers/stop-route.json' %}'
+        },
+        'paint': {
+          'circle-radius': {
+            'base': 2.5,
+            'stops': [[12, 2.1], [15, 6.5]]
+          },
+          'circle-color': [
+            'match',
+            ['get', 'type'],
+            'pickup', '#EE2E31',
+            '#ccc'
+          ]
+        }
+      });
+
+        map.addLayer({
+        'id': 'addresses',
+        'type': 'circle',
+        'source': {
+          type: 'geojson',
+          data: '{% static 'layers/clusters.json' %}'
+        },
+        'paint': {
+          'circle-radius': {
+            'base': 2.5,
+            'stops': [[12, 2.1], [15, 6.5]]
+          },
+          'circle-color': [
+            'match',
+            ['get', 'group'],
+            '0', '#fbb03b',
+            '1', '#223b53',
+            '2', '#e55e5e',
+            '3', '#3bb2d0',
+            '4', '#69B578',
+            '5', '#254D32',
+            '6', '#CDE77F',
+            '7', '#ED4D6E',
+            '8', '#DB6C79',
+            '9', '#D36135',
+            '10', '#F39237',
+            '11', '#BF1363',
+            '12', '#0E79B2',
+            '13', '#F7B1AB',
+            '14', '#B95F89',
+            '15', '#EE2E31',
+            '16', '#1D7874',
+            '17', '#F4C095',
+            '18', '#1D7874',
+            '19', '#071E22',
+            '20', '#AB4E68',
+            '#ccc'
+          ]
+        }
+      });
+    });
+
+  </script>
+{% endblock %}
+
+
+
+

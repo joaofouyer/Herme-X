@@ -41,8 +41,7 @@ def find_nearest_stop(coordinates):
     try:
         url = "{url}/find-stop".format(url=settings.LOCATION_URL)
         response = requests.get(url, json=coordinates)
-        print(json.loads(get_unicode_from_response(response)))
-        return response
+        return json.loads(get_unicode_from_response(response))
     except Exception as e:
         print("Exception on get nearest stop: {} {}".format(type(e), e))
         raise e
