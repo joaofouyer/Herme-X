@@ -24,7 +24,6 @@ def create_cluster_layer(clusters):
                     }
                 )
             label = label + 1
-        print(dicts)
         dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
         with open("/code/application/static/layers/clusters.json", 'w') as fp:
             fp.write(dicts.decode())
