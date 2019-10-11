@@ -24,14 +24,14 @@ def create_cluster_layer(clusters):
                     }
                 )
             label = label + 1
-
+        print(dicts)
         dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
         with open("/code/application/static/layers/clusters.json", 'w') as fp:
             fp.write(dicts.decode())
         return False
     except Exception as e:
-        print("Exceção em create cluster layer: ", e)
-        return True
+        print("Error on create cluster layer :  {} {}".format(type(e), e))
+        raise e
 
 
 def create_stop_layer(passengers):
@@ -42,7 +42,6 @@ def create_stop_layer(passengers):
         }
         coordinates = []
         for p in passengers:
-            print(p)
             dicts['features'].append({
                 "type": "Feature",
                 "geometry": {
@@ -63,16 +62,16 @@ def create_stop_layer(passengers):
                     "type": "dropoff"
                 }
             })
-            coordinates.append([p["pickup"]["coordinates"]["latitude"], p["pickup"]["coordinates"]["longitude"]])
-            coordinates.append([p["dropoff"]["coordinates"]["latitude"], p["dropoff"]["coordinates"]["longitude"]])
+            coordinates.append([p["origin"]["latitude"], p["origin"]["longitude"]])
+            coordinates.append([p["destination"]["latitude"], p["destination"]["longitude"]])
 
         dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
         with open("/code/application/static/layers/stop-route.json", 'w') as fp:
             fp.write(dicts.decode())
         return coordinates
     except Exception as e:
-        print("Exceção em create stop cluster layer: ", e)
-        return True
+        print("Error on create stop layer :  {} {}".format(type(e), e))
+        raise e
 
 
 def haversine(origin, destination):

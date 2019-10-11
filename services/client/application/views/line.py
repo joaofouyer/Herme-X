@@ -50,15 +50,12 @@ def passengers_map(request):
 
 def cluster(request):
     try:
-        coordinates = []
-        passengers = Passenger.objects.all()
 
-        for p in passengers:
-            coordinates.append([p.home_address.coordinates.latitude, p.home_address.coordinates.longitude])
+        coordinates = request.session['coordinates']
         clusters = cluster_passengers(coordinates=coordinates)
         request.session['clusters'] = clusters
         request.session.modified = True
-        create_cluster_layer(clusters['clusters'])
+        create_cluster_layer(clusters=clusters["clusters"])
         return render(request, 'line/cluster.html')
 
     except Exception as e:
@@ -71,7 +68,7 @@ def route_nearest_stop(request):
         passengers = request.session['passengers']
         passengers = find_nearest_stop(passengers=passengers)
         coordinates = create_stop_layer(passengers=passengers)
-        request.session['coordinates'] = coordinates
+        request.session["coordinates"] = coordinates
         request.session.modified = True
 
         return render(request, 'line/stop.html')
