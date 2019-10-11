@@ -70,8 +70,8 @@ def route_nearest_stop(request):
     try:
         passengers = request.session['passengers']
         passengers = find_nearest_stop(passengers=passengers)
-        stops = create_stop_layer(passengers)
-        request.session['stops'] = stops
+        coordinates = create_stop_layer(passengers=passengers)
+        request.session['coordinates'] = coordinates
         request.session.modified = True
 
         return render(request, 'line/stop.html')
