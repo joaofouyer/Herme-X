@@ -6,4 +6,5 @@ urlpatterns = [
     path('/passageiros', passengers_map, name='passengers_map'),
     path('/cluster', cluster, name='cluster'),
     path('/paradas', route_nearest_stop, name='find-nearest-stops'),
+    path('/ordenado', sort_stops, name='sort-stops'),
 ]

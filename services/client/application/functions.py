@@ -41,27 +41,56 @@ def create_stop_layer(stops):
             "type": "FeatureCollection",
             "features": []
         }
+        session = []
         for cluster in stops:
+            passengers = list()
             for s in cluster:
                 nearest_id = s['nearest_stop']['id']
                 nearest = Stop.objects.get(pk=nearest_id)
-                dicts['features'].append(
-                    {
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "Point",
-                            "coordinates": [nearest.address.coordinates.longitude, nearest.address.coordinates.latitude]
-                        },
-                        "properties": {
-                            "type": "pickup"
+                dicts['features'].append({
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [nearest.address.coordinates.longitude, nearest.address.coordinates.latitude]
+                    },
+                    "properties": {
+                        "type": "pickup"
+                    }
+                })
+                passengers.append({
+                    "passenger": 42,
+                    "origin": {
+                        "latitude": s['latitude'],
+                        "longitude": s['longitude']
+                    },
+                    "destination": {
+                        "latitude": 0.0,
+                        "longitude": 0.0
+                    },
+                    "pickup": {
+                        "id": nearest_id,
+                        "distance": s['nearest_stop']['distance'],
+                        "coordinates": {
+                            "latitude": nearest.address.coordinates.latitude,
+                            "longitude": nearest.address.coordinates.longitude
+                        }
+                    },
+                    "dropoff": {
+                        "id": 0,
+                        "distance": 0,
+                        "coordinates": {
+                            "latitude": 0.0,
+                            "longitude": 0.0
                         }
                     }
-                )
+                })
+
+            session.append(passengers)
 
         dicts = json.dumps(dicts, ensure_ascii=False).encode('utf8')
         with open("/code/application/static/layers/stop-route.json", 'w') as fp:
             fp.write(dicts.decode())
-        return False
+        return session
     except Exception as e:
         print("Exceção em create stop cluster layer: ", e)
         return True

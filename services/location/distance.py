@@ -61,6 +61,13 @@ class Distance:
     def walking(self):
         pass
 
+    def sort(self, places):
+        try:
+            print(places)
+        except Exception as e:
+            print("Error on sorting distances:  {} {}".format(type(e), e))
+            raise e
+
     def json(self):
         distance = {
             "haversine": self.haversine_distance,

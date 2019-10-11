@@ -115,30 +115,36 @@ class TravelTimeService:
 
 
 class DistanceService:
-    def on_get(self, request, response, origin, destination, mode="haversine"):
+    def on_get(self, request, response, origin=None, destination=None, mode="haversine"):
         try:
             response.status = falcon.HTTP_200
+
             dist = Distance()
             dist.mode = mode
-            if not origin:
-                raise falcon.HTTPMissingParam(
-                    param_name="origin", href_text="You must provide an origin address to measure distance."
-                )
-            if not destination:
-                raise falcon.HTTPMissingParam(
-                    param_name="destination", href_text="You must provide a destination address to measure distance."
-                )
 
-            origin = origin.split(',')
-            destination = destination.split(',')
+            if mode == "sort":
+                places = loads(request.stream.read())
+                print(places)
+                dist.sort(places)
+            else:
+                if not origin:
+                    raise falcon.HTTPMissingParam(
+                        param_name="origin", href_text="You must provide an origin address to measure distance."
+                    )
+                if not destination:
+                    raise falcon.HTTPMissingParam(
+                        param_name="destination", href_text="You must provide a destination address to measure distance."
+                    )
+                origin = origin.split(',')
+                destination = destination.split(',')
 
-            dist.origin = Coordinates(latitude=origin[0], longitude=origin[1])
-            dist.destination = Coordinates(latitude=destination[0], longitude=destination[1])
+                dist.origin = Coordinates(latitude=origin[0], longitude=origin[1])
+                dist.destination = Coordinates(latitude=destination[0], longitude=destination[1])
 
-            options = {"haversine": dist.haversine, "euclidean": dist.euclidean, "driving": dist.driving}
+                options = {"haversine": dist.haversine, "euclidean": dist.euclidean, "driving": dist.driving}
 
-            options[mode]()
-            response.body = dumps(dist.json())
+                options[mode]()
+                response.body = dumps(dist.json())
 
         except Exception as e:
             print("Estimate Travel Time exception {} {}".format(type(e), e))
@@ -151,7 +157,7 @@ class NearestStopService:
             response.status = falcon.HTTP_200
             data = loads(request.stream.read())
             ns = NearestStop()
-            response.body = dumps(ns.find(addresses=data))
+            response.body = dumps(ns.find_multiple(passengers=data))
 
         except Exception as e:
             print("Exception on nearest stop: {} {}".format(type(e), e))
@@ -217,6 +223,7 @@ api.add_route('/ett/origin={origin}&destination={destination}/departure={departu
 api.add_route('/ett/origin={origin}&destination={destination}/arrival={arrival}', travel_time)
 
 api.add_route('/distance/', distance)
+api.add_route('/distance/{mode}', distance)
 api.add_route('/distance/origin={origin}&destination={destination}', distance)
 api.add_route('/distance/{mode}/origin={origin}&destination={destination}', distance)
 
